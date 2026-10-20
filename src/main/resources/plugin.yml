@@ -1,0 +1,32 @@
+name: NexusWaiting
+version: ${project.version}
+main: com.nexuscraft.nexuswaiting.WaitingPlugin
+api-version: '1.21'
+author: Nexus Universe
+description: A "waiting for you" list of real-time timers (growing pets, scouts you sent out, anything another plugin reports), shown when you log in and pinged to Discord when something finishes while you are offline.
+softdepend: [NexusGate, NexusWelcome, NexusHatchlings]
+
+commands:
+  waiting:
+    description: See what is waiting for you, send scouts out, link Discord.
+    aliases: [wait, scouts, errands]
+    permission: nexuswaiting.use
+    permission-message: You cannot use that here.
+    usage: /waiting [list|claim|popup on|off|discord link <id>]
+
+permissions:
+  nexuswaiting.use:
+    description: Open the list, send scouts, link Discord.
+    default: true
+  nexuswaiting.admin:
+    description: Add and clear timers for players (also from command blocks), unlink Discord, status, reload.
+    default: op
+  nexuswaiting.slots.2:
+    description: Two scouts out at once.
+    default: false
+  nexuswaiting.slots.3:
+    description: Three scouts out at once.
+    default: false
+  nexuswaiting.slots.4:
+    description: Four scouts out at once.
+    default: false

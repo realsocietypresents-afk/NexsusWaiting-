@@ -1,0 +1,273 @@
+# NexusWaiting: a list of things that finish in real time, shown at login and pinged to Discord.
+
+login:
+  # when-ready = the list pops up at login only if something is ready (recommended)
+  # always     = pops up at every login
+  # never      = never by itself (players type /waiting)
+  popup: when-ready
+  # Seconds after joining before the list opens (NexusWelcome opens its menu at 5, so keep this above that).
+  delay-seconds: 8
+  # Wait until the player is really in (NexusGate login done) and has no other menu open.
+  wait-for-login: true
+  timeout-seconds: 180
+
+# How often (seconds) finished timers are announced. Changing this needs a server restart.
+check-interval-seconds: 30
+# Tell an online player in chat when something finishes.
+notify-online: true
+# Finished timers nobody collected are dropped after this many days (scouts are never dropped).
+cleanup-days: 30
+max-timers-per-player: 40
+
+menu:
+  title: "&d&lWaiting for you"
+  filler: true
+  filler-icon: GRAY_STAINED_GLASS_PANE
+
+discord:
+  # Pings a player on Discord when something finishes while they are offline.
+  # 1. In Discord: channel settings > Integrations > Webhooks > New Webhook > Copy Webhook URL.
+  # 2. Paste it below and set enabled to true, then /waiting reload.
+  # Keep the URL secret (anyone who has it can post to your channel). It is never printed in the log.
+  enabled: false
+  webhook-url: ""
+  # One player is pinged at most once per this many minutes, and at most max-pings-per-day times a day.
+  min-minutes-between-pings: 30
+  max-pings-per-day: 3
+  # Whole-server safety limit.
+  max-pings-per-hour-server: 30
+  # Things that finished more than this long ago are not worth a ping any more.
+  skip-older-than-hours: 24
+  username: "RealSociety"
+  server-name: "RealSociety"
+  # {server} and {what} (what is ready) are filled in. Colour codes are removed.
+  message: "Something is waiting for you on {server}: {what}"
+
+errands:
+  # Players send a scout to a place; it comes back after real time with a haul and a short story.
+  enabled: true
+  # Scouts out at once. A player gets more with the permissions nexuswaiting.slots.2, .3, .4 (max 4).
+  slots: 1
+  max-slots: 4
+  # Up to 7 places. Each find: item + min/max amount (1-64) + weight (higher = more common),
+  # or a command run as the console ({player} is filled in), for example to pay money:
+  #   pay:
+  #     command: "eco give {player} 100"
+  #     weight: 2
+  destinations:
+    woods:
+      name: "&aThe Woods"
+      icon: OAK_SAPLING
+      minutes: 15
+      lore:
+        - "A quick walk under the trees."
+      rolls: 2
+      rewards:
+        logs:
+          item: OAK_LOG
+          min: 4
+          max: 12
+          weight: 10
+        sticks:
+          item: STICK
+          min: 4
+          max: 10
+          weight: 6
+        apples:
+          item: APPLE
+          min: 1
+          max: 3
+          weight: 4
+        berries:
+          item: SWEET_BERRIES
+          min: 3
+          max: 8
+          weight: 5
+      jackpot:
+        chance-percent: 3
+        rewards:
+          tag:
+            item: NAME_TAG
+            min: 1
+            max: 1
+            weight: 1
+          golden:
+            item: GOLDEN_APPLE
+            min: 1
+            max: 1
+            weight: 1
+      stories:
+        - "Your scout followed a fox for an hour and found where it hides its snacks."
+        - "A friendly woodcutter swapped a story for a handful of sticks."
+        - "Your scout got lost, then found itself again. Mostly."
+    mine:
+      name: "&7The Old Mine"
+      icon: IRON_PICKAXE
+      minutes: 60
+      lore:
+        - "Dark tunnels, a lantern, and a lot of echoes."
+      rolls: 3
+      rewards:
+        coal:
+          item: COAL
+          min: 6
+          max: 16
+          weight: 10
+        copper:
+          item: RAW_COPPER
+          min: 4
+          max: 10
+          weight: 7
+        iron:
+          item: IRON_INGOT
+          min: 3
+          max: 8
+          weight: 6
+        lapis:
+          item: LAPIS_LAZULI
+          min: 3
+          max: 9
+          weight: 4
+        redstone:
+          item: REDSTONE
+          min: 4
+          max: 12
+          weight: 4
+        gold:
+          item: GOLD_INGOT
+          min: 2
+          max: 5
+          weight: 2
+      jackpot:
+        chance-percent: 4
+        rewards:
+          diamond:
+            item: DIAMOND
+            min: 1
+            max: 2
+            weight: 1
+      stories:
+        - "Your scout swears something knocked back from inside the wall."
+        - "The lantern flickered twice. Your scout decided that was enough for one trip."
+        - "An old minecart track led somewhere interesting, and your scout wrote it all down."
+    marsh:
+      name: "&2The Marsh"
+      icon: LILY_PAD
+      minutes: 240
+      lore:
+        - "Slow, damp, and full of odd finds."
+      rolls: 3
+      rewards:
+        mushrooms:
+          item: BROWN_MUSHROOM
+          min: 3
+          max: 8
+          weight: 8
+        string:
+          item: STRING
+          min: 4
+          max: 10
+          weight: 8
+        eyes:
+          item: SPIDER_EYE
+          min: 2
+          max: 5
+          weight: 5
+        bones:
+          item: BONE
+          min: 4
+          max: 10
+          weight: 7
+      jackpot:
+        chance-percent: 5
+        rewards:
+          pearl:
+            item: ENDER_PEARL
+            min: 1
+            max: 2
+            weight: 1
+      stories:
+        - "Your scout came back muddy to the knees and weirdly proud."
+        - "Lights over the water followed your scout all the way home."
+        - "A very old frog gave your scout directions. They were wrong."
+    ruins:
+      name: "&6The Lost Ruins"
+      icon: BRICKS
+      minutes: 720
+      lore:
+        - "A long trip. The best finds are out here."
+      rolls: 4
+      rewards:
+        gold:
+          item: GOLD_INGOT
+          min: 3
+          max: 8
+          weight: 8
+        emerald:
+          item: EMERALD
+          min: 1
+          max: 3
+          weight: 5
+        lapis:
+          item: LAPIS_LAZULI
+          min: 5
+          max: 12
+          weight: 6
+        amethyst:
+          item: AMETHYST_SHARD
+          min: 4
+          max: 10
+          weight: 5
+        xp:
+          item: EXPERIENCE_BOTTLE
+          min: 3
+          max: 8
+          weight: 5
+      jackpot:
+        chance-percent: 6
+        rewards:
+          diamond:
+            item: DIAMOND
+            min: 2
+            max: 4
+            weight: 5
+          echo:
+            item: ECHO_SHARD
+            min: 1
+            max: 2
+            weight: 3
+      stories:
+        - "Your scout found a door that was not on any map, and politely left it closed."
+        - "Carved words on a wall: 'Come back sooner next time.' Your scout took that personally."
+        - "The ruins were quiet. Too quiet. Your scout brought snacks and left the quiet alone."
+
+# Every message the plugin says can be changed here; leave one out to keep the built-in text.
+# {n}, {time}, {place}, {haul}, {what}, {state} are filled in where they appear.
+messages:
+  prefix: "&d&l[Waiting] &r"
+  login: "&7You have &f{n}&7 thing(s) waiting for you. &f/waiting&7 opens the list."
+  ready-online: "&a{what}&7 Type &f/waiting&7 to see it."
+  dismissed: "&7Cleared from your list."
+  not-ready: "&7Not ready yet: &f{time}&7 to go."
+  errand-label: "Your scout is back from {place}"
+  errand-sent: "&aYou sent a scout to &f{place}&a. Back in &f{time}&a."
+  errand-busy: "&cAll your scouts are already out."
+  errand-none: "&7You have no scout out there."
+  errand-claim: "&aYour scout returned from &f{place}&a with: &f{haul}"
+  errand-jackpot: "&6&lLucky find! &r&7Your scout came back with something special."
+  errand-room: "&cMake room first: you need &f{n}&c empty inventory slot(s) to collect this."
+  errand-off: "&7Errands are turned off on this server."
+  discord-off-server: "&7Discord pings are not set up on this server."
+  discord-linked: "&aLinked. You get a Discord ping when something is ready while you are offline. &f/waiting discord test&a sends one now."
+  discord-bad-id: "&cThat is not a Discord user ID. It is 17 to 20 digits: in Discord turn on Developer Mode, right-click your name, Copy User ID."
+  discord-unlinked: "&7Discord unlinked."
+  discord-on: "&aDiscord pings are on."
+  discord-off: "&7Discord pings are off. &f/waiting discord on&7 turns them back on."
+  discord-test-sent: "&aSent a test ping. Check Discord."
+  discord-test-wait: "&7Wait a minute between tests."
+  discord-not-linked: "&7Link first: &f/waiting discord link <your Discord user ID>"
+  discord-status-linked: "&7Discord: linked, pings are &f{state}&7."
+  discord-status-none: "&7Discord: not linked. &f/waiting discord link <your Discord user ID>"
+  popup-on: "&aThe list pops up when you log in and something is ready."
+  popup-off: "&7The list will not pop up by itself. &f/waiting&7 still opens it."
+  empty: "&7Nothing is waiting for you right now."
